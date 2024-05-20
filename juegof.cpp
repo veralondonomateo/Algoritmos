@@ -23,13 +23,13 @@ void letrastopalabras() {
         {'H', 'U', 'M', 'A', 'N', 'E', 'D'}
     };
     vector<vector<string>> palabras = {
-        {"REAL", "HORA", "ARTE", "DAR"},
-        {"MES", "PINO", "SOL", "PISO"},
-        {"Carro", "Ver", "Tierra", "Vía"},
-        {"Sol", "Tú", "Uno", "Tino"},
-        {"Arte", "Red", "Fiar", "Tarde"},
-        {"Lago", "Gallo", "Agil", "Bailón"},
-        {"Mano", "Luna", "Humo", "Amén"}
+        {"real", "hora", "arte", "dar"},
+        {"mes", "pino", "sol", "piso"},
+        {"Carro", "Ver", "tierra", "via"},
+        {"Sol", "Tú", "Uno", "tino"},
+        {"arte", "Red", "Fiar", "Tarde"},
+        {"lago", "gallo", "agil", "bailon"},
+        {"mano", "luna", "humo", "amen"}
     };
 
     cout << "Bienvenido al juego de encuentra las palabras" << endl;
