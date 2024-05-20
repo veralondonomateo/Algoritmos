@@ -41,7 +41,7 @@ void letrastopalabras() {
 
     steady_clock::time_point tiempoInicio = steady_clock::now();
 
-    while (vidas > 0 && puntos < 100) {
+    while (vidas > 0) {  //eliminamos el parametro de puntos debido a que el jugador podrá seguir jugando hasta que no tenga vidas.
         int ronda = rand() % matrizletras.size(); // Seleccionar una fila al azar
 
         cout << "Basado en estas letras tienes 10 segundos para adivinar la mayor cantidad de palabras: ";
