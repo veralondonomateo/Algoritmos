@@ -127,4 +127,34 @@ void letrastopalabras() {
             auto it = find(palabrasusu.begin(), palabrasusu.end(), varaux);
 
             if (it != palabrasusu.end()) {
-                cout << "La palabra
+                cout << "La palabra" << varaux << "está correcta. Ganaste 50 puntos" << endl << endl;
+                puntos += 50;
+            } else {
+                cout << "La palabra \"" << varaux << "\" no está correcta. Perdiste 1 vida" << endl << endl;
+                vidas -= 1;
+            }
+            cout << "Puntos: " << puntos << endl;
+            cout << "Vidas: " << vidas << endl;
+            cout << "Llevas " << intentos << " intentos." << endl; // mostramos en pantalla cuantos intentos llevas.
+
+            // Esperar un segundo antes de la siguiente iteración
+            this_thread::sleep_for(seconds(2));
+        }
+    }
+
+    if (vidas == 0) {
+        cout << endl << "Te quedaron 0 vidas" << endl << "Perdiste" << endl;
+        cout << "Tuviste " << puntos << " puntos" << endl;
+    } else {
+        cout << "TUVISTE  " << puntos << " PUNTOS " << endl;
+    }
+    cout << "Gracias por jugar" << endl;
+
+    // Guardar la información del jugador en el archivo de jugadores
+    guardarJugador(jugador);
+}
+
+int main() {
+    letrastopalabras();
+    return 0;
+}
