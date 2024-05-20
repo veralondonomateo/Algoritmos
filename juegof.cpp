@@ -6,19 +6,25 @@
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
-#include <fstream>
-#include <sstream>
+#include <fstream>  // Para trabajar con archivos de texto
+#include <sstream>  // Para trabajar con cadenas de texto
 
 using namespace std;
 using namespace std::chrono;
 
-void cargarDatos(vector<vector<char>>& matrizletras, vector<vector<string>>& palabras) {
-    ifstream archivoLetras("matrizletras.txt");
-    ifstream archivoPalabras("palabras.txt");
+struct estructura {
+    string nombre;
+    int puntos;
+};
 
-    if (!archivoLetras.is_open() || !archivoPalabras.is_open()) {
-        cerr << "Error al abrir los archivos de datos." << endl;
-        exit(EXIT_FAILURE);
+// Función para cargar los datos desde los archivos de texto
+void cargarDatos(vector<vector<char>>& matrizletras, vector<vector<string>>& palabras) {
+    ifstream archivoLetras("matrizletras.txt");    // Abre el archivo de letras
+    ifstream archivoPalabras("palabras.txt");      // Abre el archivo de palabras
+
+    if (!archivoLetras.is_open() || !archivoPalabras.is_open()) {  // Verifica si los archivos se abrieron correctamente
+        cerr << "Error al abrir los archivos de datos." << endl;    // Mensaje de error si no se pudieron abrir los archivos
+        exit(EXIT_FAILURE);  // Sale del programa con un estado de fallo
     }
 
     string linea;
@@ -42,14 +48,29 @@ void cargarDatos(vector<vector<char>>& matrizletras, vector<vector<string>>& pal
         palabras.push_back(filaPalabras);
     }
 
-    archivoLetras.close();
-    archivoPalabras.close();
+    archivoLetras.close();   // Cierra el archivo de letras
+    archivoPalabras.close(); // Cierra el archivo de palabras
 }
 
+// Función para escribir la información del jugador en un archivo
+void guardarJugador(const estructura& jugador) {
+    ofstream archivoJugadores("jugadores.txt", ios::app); // Abre el archivo de jugadores en modo de escritura, agregando al final
+
+    if (!archivoJugadores.is_open()) {  // Verifica si el archivo se abrió correctamente
+        cerr << "Error al abrir el archivo de jugadores." << endl; // Mensaje de error si no se pudo abrir el archivo
+        return;
+    }
+
+    archivoJugadores << "Nombre: " << jugador.nombre << ", Puntos: " << jugador.puntos << endl; // Escribe la información del jugador en el archivo
+    archivoJugadores.close(); // Cierra el archivo de jugadores
+}
+
+// Función principal del juego
 void letrastopalabras() {
     int vidas = 3;
     int puntos = 0;
     int intentos = 0;
+    string nombre;
     const int tiempolimite = 40;
     const int tiempoRespuesta = 10; // Tiempo máximo de respuesta permitido en segundos
     vector<vector<char>> matrizletras;
@@ -59,7 +80,12 @@ void letrastopalabras() {
     cargarDatos(matrizletras, palabras);
 
     cout << "Bienvenido al juego de encuentra las palabras - Puedes encontrar como máximo 8 palabras" << endl;
-
+    cout << "Ingresa tu nombre - ";
+    cin >> nombre;
+    estructura jugador;
+    jugador.nombre = nombre;
+    jugador.puntos = puntos;    
+    
     // Inicializar la semilla para el generador de números aleatorios
     srand(time(0));
 
@@ -101,30 +127,4 @@ void letrastopalabras() {
             auto it = find(palabrasusu.begin(), palabrasusu.end(), varaux);
 
             if (it != palabrasusu.end()) {
-                cout << "La palabra \"" << varaux << "\" está correcta. Ganaste 50 puntos" << endl << endl;
-                puntos += 50;
-            } else {
-                cout << "La palabra \"" << varaux << "\" no está correcta. Perdiste 1 vida" << endl << endl;
-                vidas -= 1;
-            }
-            cout << "Puntos: " << puntos << endl;
-            cout << "Vidas: " << vidas << endl;
-            cout << "Llevas " << intentos << " intentos." << endl; // mostramos en pantalla cuantos intentos llevas.
-
-            // Esperar un segundo antes de la siguiente iteración
-            this_thread::sleep_for(seconds(2));
-        }
-    }
-
-    if (vidas == 0) {
-        cout << endl << "Te quedaron 0 vidas" << endl << "Perdiste" << endl;
-        cout << "Tuviste " << puntos << " puntos" << endl;
-    } else {
-        cout << "TUVISTE  " << puntos << " PUNTOS " << endl;
-    }
-}
-
-int main() {
-    letrastopalabras();
-    return 0;
-}
+                cout << "La palabra
