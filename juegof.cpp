@@ -13,6 +13,7 @@ using namespace std::chrono;
 void letrastopalabras() {
     int vidas = 3;
     int puntos = 0;
+    int intentos = 8;
     const int tiempolimite = 40;
     const int tiempoRespuesta = 10; // Tiempo máximo de respuesta permitido en segundos
     vector<vector<char>> matrizletras = {
@@ -34,14 +35,14 @@ void letrastopalabras() {
         {"MANO", "LUNA", "HUMO", "AMEN"}
     };
 
-    cout << "Bienvenido al juego de encuentra las palabras" << endl;
+    cout << "Bienvenido al juego de encuentra las palabras - Puedes encontrar como máximo 8 palabras" << endl;
 
     // Inicializar la semilla para el generador de números aleatorios
     srand(time(0));
 
     steady_clock::time_point tiempoInicio = steady_clock::now();
 
-    while (vidas > 0) {  //eliminamos el parametro de puntos debido a que el jugador podrá seguir jugando hasta que no tenga vidas.
+    while (vidas > 0 && intentos <= 8) {  //eliminamos el parametro de puntos debido a que el jugador podrá seguir jugando hasta que no tenga vidas.
         int ronda = rand() % matrizletras.size(); // Seleccionar una fila al azar
 
         cout << "Basado en estas letras tienes 10 segundos para adivinar la mayor cantidad de palabras: ";
@@ -56,6 +57,7 @@ void letrastopalabras() {
             string varaux;
             cout << endl << "Ingresa una palabra. Tienes 10 segundos para ingresarla ==> ";
             cin >> varaux;
+            intentos += 1;
 
             // Tomar el tiempo justo después de recibir la entrada del usuario
             steady_clock::time_point tiempoRespuestaUsuario = steady_clock::now();
