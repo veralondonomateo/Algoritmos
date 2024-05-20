@@ -13,26 +13,26 @@ using namespace std::chrono;
 void letrastopalabras() {
     int vidas = 3;
     int puntos = 0;
-    int intentos = 8;
+    int intentos = 0;
     const int tiempolimite = 40;
     const int tiempoRespuesta = 10; // Tiempo máximo de respuesta permitido en segundos
     vector<vector<char>> matrizletras = {
-        {'L', 'E', 'A', 'R', 'T', 'H', 'D'},
-        {'O', 'M', 'P', 'S', 'I', 'N', 'E'},
-        {'R', 'A', 'C', 'T', 'E', 'I', 'V'},
-        {'S', 'U', 'N', 'I', 'O', 'T', 'A'},
-        {'D', 'E', 'R', 'F', 'A', 'T', 'I'},
-        {'G', 'O', 'L', 'N', 'A', 'I', 'B'},
-        {'H', 'U', 'M', 'A', 'N', 'E', 'D'}
+        {'L', 'E', 'A', 'R', 'T', 'H', 'D', 'G', 'O', 'N'}, //se añadir mas letras para mayor poder construir mas palabras
+        {'O', 'M', 'P', 'S', 'I', 'N', 'E', 'T', 'A', 'R'},
+        {'R', 'A', 'C', 'T', 'E', 'I', 'V', 'L', 'D', 'U'},
+        {'S', 'U', 'N', 'I', 'O', 'T', 'A', 'R', 'M', 'E'},
+        {'D', 'E', 'R', 'F', 'A', 'T', 'I', 'L', 'O', 'P'},
+        {'G', 'O', 'L', 'N', 'A', 'I', 'B', 'S', 'C', 'E'},
+        {'H', 'U', 'M', 'A', 'N', 'E', 'D', 'T', 'R', 'L'}
     };
     vector<vector<string>> palabras = {
-        {"REAL", "HORA", "ARTE", "DAR"},
-        {"MES", "PINO", "SOL", "PISO"},
-        {"CARRO", "VER", "TIERRA", "VIA"},
-        {"SOL", "TU", "UNO", "TINO"},
-        {"ARTE", "RED", "FIAR", "TARDE"},
-        {"LAGO", "GALLO", "AGIL", "BAILON"},
-        {"MANO", "LUNA", "HUMO", "AMEN"}
+        {"REAL", "HORA", "ARTE", "DAR", "GATO", "LEON", "TARDE", "LARGO"},
+        {"MES", "PINO", "SOL", "PISO", "MESA", "SIRENA", "TRAMPA", "ROMPE"},
+        {"CARRO", "VER", "TIERRA", "VIA", "CIELO", "LUCERO", "CARTA", "ACUERDO"},
+        {"SOL", "TU", "UNO", "TINO", "MUSA", "SANTO", "SOMAR", "NUEVO"},
+        {"ARTE", "RED", "FIAR", "TARDE", "PEDIR", "DELITO", "PORTAR", "DIFERIR"},
+        {"LAGO", "GALLO", "AGIL", "BAILON", "CINE", "SILLA", "BOTAR", "LOGICO"},
+        {"MANO", "LUNA", "HUMO", "AMEN", "TERMA", "RUTINA", "LENTE", "DUELO"}
     };
 
     cout << "Bienvenido al juego de encuentra las palabras - Puedes encontrar como máximo 8 palabras" << endl;
@@ -86,6 +86,7 @@ void letrastopalabras() {
             }
             cout << "Puntos: " << puntos << endl;
             cout << "Vidas: " << vidas << endl;
+            cout <<"llevas "<<intentos<<" intentos."<<endl; // mostramos en pantalla cuantos intentos llevas.
 
             // Esperar un segundo antes de la siguiente iteración
             this_thread::sleep_for(seconds(2));
@@ -93,7 +94,7 @@ void letrastopalabras() {
     }
 
     if (vidas == 0) {
-        cout << "Te quedaron 0 vidas. Perdiste" << endl;
+        cout <<endl<< "Te quedaron 0 vidas"<<endl<< "Perdiste" << endl;
         cout << "Tuviste " << puntos << " puntos" << endl;
     } else {
         
