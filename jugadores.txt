@@ -1,0 +1,5 @@
+
+
+Nombre: juan, Puntos: 50
+Nombre: paco, Puntos: 0
+Nombre: teo, Puntos: 100

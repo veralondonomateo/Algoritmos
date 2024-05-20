@@ -6,8 +6,8 @@
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
-#include <fstream>  // Para trabajar con archivos de texto
-#include <sstream>  // Para trabajar con cadenas de texto
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 using namespace std::chrono;
@@ -17,14 +17,13 @@ struct estructura {
     int puntos;
 };
 
-// Función para cargar los datos desde los archivos de texto
 void cargarDatos(vector<vector<char>>& matrizletras, vector<vector<string>>& palabras) {
-    ifstream archivoLetras("matrizletras.txt");    // Abre el archivo de letras
-    ifstream archivoPalabras("palabras.txt");      // Abre el archivo de palabras
+    ifstream archivoLetras("matrizletras.txt");
+    ifstream archivoPalabras("palabras.txt");
 
-    if (!archivoLetras.is_open() || !archivoPalabras.is_open()) {  // Verifica si los archivos se abrieron correctamente
-        cerr << "Error al abrir los archivos de datos." << endl;    // Mensaje de error si no se pudieron abrir los archivos
-        exit(EXIT_FAILURE);  // Sale del programa con un estado de fallo
+    if (!archivoLetras.is_open() || !archivoPalabras.is_open()) {
+        cerr << "Error al abrir los archivos de datos." << endl;
+        exit(EXIT_FAILURE);
     }
 
     string linea;
@@ -48,51 +47,47 @@ void cargarDatos(vector<vector<char>>& matrizletras, vector<vector<string>>& pal
         palabras.push_back(filaPalabras);
     }
 
-    archivoLetras.close();   // Cierra el archivo de letras
-    archivoPalabras.close(); // Cierra el archivo de palabras
+    archivoLetras.close();
+    archivoPalabras.close();
 }
 
-// Función para escribir la información del jugador en un archivo
 void guardarJugador(const estructura& jugador) {
-    ofstream archivoJugadores("jugadores.txt", ios::app); // Abre el archivo de jugadores en modo de escritura, agregando al final
+    ofstream archivoJugadores("jugadores.txt", ios::app);
 
-    if (!archivoJugadores.is_open()) {  // Verifica si el archivo se abrió correctamente
-        cerr << "Error al abrir el archivo de jugadores." << endl; // Mensaje de error si no se pudo abrir el archivo
+    if (!archivoJugadores.is_open()) {
+        cerr << "Error al abrir el archivo de jugadores." << endl;
         return;
     }
 
-    archivoJugadores << "Nombre: " << jugador.nombre << ", Puntos: " << jugador.puntos << endl; // Escribe la información del jugador en el archivo
-    archivoJugadores.close(); // Cierra el archivo de jugadores
+    archivoJugadores << "Nombre: " << jugador.nombre << ", Puntos: " << jugador.puntos << endl;
+    archivoJugadores.close();
 }
 
-// Función principal del juego
+
 void letrastopalabras() {
     int vidas = 3;
     int puntos = 0;
     int intentos = 0;
     string nombre;
     const int tiempolimite = 40;
-    const int tiempoRespuesta = 10; // Tiempo máximo de respuesta permitido en segundos
+    const int tiempoRespuesta = 10;
     vector<vector<char>> matrizletras;
     vector<vector<string>> palabras;
 
-    // Cargar datos desde los archivos
     cargarDatos(matrizletras, palabras);
 
     cout << "Bienvenido al juego de encuentra las palabras - Puedes encontrar como máximo 8 palabras" << endl;
     cout << "Ingresa tu nombre - ";
     cin >> nombre;
     estructura jugador;
-    jugador.nombre = nombre;
-    jugador.puntos = puntos;    
+      
     
-    // Inicializar la semilla para el generador de números aleatorios
     srand(time(0));
 
     steady_clock::time_point tiempoInicio = steady_clock::now();
 
     while (vidas > 0 && intentos <= 8) {
-        int ronda = rand() % matrizletras.size(); // Seleccionar una fila al azar
+        int ronda = rand() % matrizletras.size();
 
         cout << "Basado en estas letras tienes 10 segundos para adivinar la mayor cantidad de palabras: ";
         for (auto &&i : matrizletras[ronda]) {
@@ -101,17 +96,14 @@ void letrastopalabras() {
         cout << endl;
 
         while (duration_cast<seconds>(steady_clock::now() - tiempoInicio).count() < tiempolimite && vidas > 0 ) {
-            // Tomar el tiempo justo antes de pedir la entrada del usuario
             steady_clock::time_point tiempoPregunta = steady_clock::now();
             string varaux;
             cout << endl << "Ingresa una palabra. Tienes 10 segundos para ingresarla ==> ";
             cin >> varaux;
             intentos += 1;
 
-            // Tomar el tiempo justo después de recibir la entrada del usuario
             steady_clock::time_point tiempoRespuestaUsuario = steady_clock::now();
 
-            // Verificar si se ha excedido el tiempo de respuesta
             if (duration_cast<seconds>(tiempoRespuestaUsuario - tiempoPregunta).count() > tiempoRespuesta) {
                 cout << "Te has demorado más de " << tiempoRespuesta << " segundos. La respuesta se considera incorrecta." << endl << endl;
                 vidas -= 1;
@@ -120,12 +112,10 @@ void letrastopalabras() {
                 continue;
             }
 
-            // Convertir la entrada del usuario a mayúsculas para la comparación
             transform(varaux.begin(), varaux.end(), varaux.begin(), ::toupper);
 
             vector<string> palabrasusu = palabras[ronda];
             auto it = find(palabrasusu.begin(), palabrasusu.end(), varaux);
-
             if (it != palabrasusu.end()) {
                 cout << "La palabra" << varaux << "está correcta. Ganaste 50 puntos" << endl << endl;
                 puntos += 50;
@@ -135,12 +125,13 @@ void letrastopalabras() {
             }
             cout << "Puntos: " << puntos << endl;
             cout << "Vidas: " << vidas << endl;
-            cout << "Llevas " << intentos << " intentos." << endl; // mostramos en pantalla cuantos intentos llevas.
+            cout << "Llevas " << intentos << " intentos." << endl;
 
-            // Esperar un segundo antes de la siguiente iteración
             this_thread::sleep_for(seconds(2));
         }
     }
+    jugador.nombre = nombre;
+    jugador.puntos = puntos;
 
     if (vidas == 0) {
         cout << endl << "Te quedaron 0 vidas" << endl << "Perdiste" << endl;
@@ -150,11 +141,83 @@ void letrastopalabras() {
     }
     cout << "Gracias por jugar" << endl;
 
-    // Guardar la información del jugador en el archivo de jugadores
     guardarJugador(jugador);
+}
+
+void countingSort(vector<estructura>& jugadores, int exp) {
+    int n = jugadores.size();
+    vector<estructura> output(n);
+    int count[10] = {0};
+
+    for (int i = 0; i < n; i++)
+        count[(jugadores[i].puntos / exp) % 10]++;
+
+    for (int i = 1; i < 10; i++)
+        count[i] += count[i - 1];
+
+    for (int i = n - 1; i >= 0; i--) {
+        output[count[(jugadores[i].puntos / exp) % 10] - 1] = jugadores[i];
+        count[(jugadores[i].puntos / exp) % 10]--;
+    }
+
+    for (int i = 0; i < n; i++)
+        jugadores[i] = output[i];
+}
+
+void radixsort(vector<estructura>& jugadores) {
+    int maxPuntos = jugadores[0].puntos;
+    int n = jugadores.size();
+
+    for (int i = 1; i < n; i++) {
+        if (jugadores[i].puntos > maxPuntos)
+            maxPuntos = jugadores[i].puntos;
+    }
+
+    for (int exp = 1; maxPuntos / exp > 0; exp *= 10)
+        countingSort(jugadores, exp);
+}
+
+void crearArchivoResumen() {
+    vector<estructura> jugadores;
+    ifstream archivoJugadores("jugadores.txt");
+
+    if (!archivoJugadores.is_open()) {
+        cerr << "Error al abrir el archivo de jugadores." << endl;
+        return;
+    }
+
+    string linea;
+    while (getline(archivoJugadores, linea)) {
+        estructura jugador;
+        stringstream ss(linea);
+        string temp;
+        ss >> temp; // Ignorar "Nombre:"
+        ss >> jugador.nombre; // Leer el nombre del jugador
+        ss >> temp; // Ignorar "Puntos:"
+        ss >> jugador.puntos; // Leer los puntos del jugador
+        jugadores.push_back(jugador);
+    }
+
+    archivoJugadores.close();
+
+    radixsort(jugadores); // Ordenar los jugadores por puntos
+
+    ofstream archivoResumen("resumen.txt");
+    if (!archivoResumen.is_open()) {
+        cerr << "Error al crear el archivo de resumen." << endl;
+        return;
+    }
+
+    for (const auto& jugador : jugadores) {
+        archivoResumen << "Nombre: " << jugador.nombre << ", Puntos: " << jugador.puntos << endl;
+    }
+
+    archivoResumen.close();
 }
 
 int main() {
     letrastopalabras();
+    crearArchivoResumen();
     return 0;
 }
+

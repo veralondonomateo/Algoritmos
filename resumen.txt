@@ -1,0 +1,4 @@
+Nombre: paco,, Puntos: 0
+Nombre: juan,, Puntos: 50
+Nombre: , Puntos: 1458395392
+Nombre: , Puntos: 1458395392
